@@ -1,0 +1,22 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 28
+    }
+}
+
+dependencies {
+    implementation 'com.android.support:support-v4:28.0.0-rc01'
+    implementation 'com.android.support:support-annotations:28.0.0-rc01'
+}
+
+apply from: 'https://raw.github.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'
+
+afterEvaluate {
+    androidJavadocs.failOnError = false
+    androidJavadocs.classpath += project.android.libraryVariants.toList().first().javaCompile.classpath
+}

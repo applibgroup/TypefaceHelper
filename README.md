@@ -1,260 +1,140 @@
-## ohos-Bootstrap
+# TypefaceHelper
 
-## Introduction
-ohos-Bootstrap is an Harmony library which provides custom views styled according to the
- [Twitter Bootstrap Specification](http://getbootstrap.com/). This allows you to spend more time
-  on development rather than trying to get a consistent theme across your app, especially if you are already familiar with the Bootstrap Framework.
+[![Gitter](http://img.shields.io/badge/Gitter-Join%20Chat-brightgreen.svg?style=flat)](https://gitter.im/Drivemode/TypefaceHelper?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-TypefaceHelper-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1246)
+[![License](http://img.shields.io/badge/License-Apache%202-brightgreen.svg?style=flat)](https://github.com/Drivemode/TypefaceHelper/blob/master/LICENSE)
+[![Circle CI](https://circleci.com/gh/Drivemode/TypefaceHelper/tree/master.svg?style=shield)](https://circleci.com/gh/Drivemode/TypefaceHelper/tree/master)
 
-## Usage Instruction
-Supported Features with usage Examples
+Helper object for injecting typeface into various text views of android.
 
-### BootstrapButton
-A button that supports Glyph icons, and is themeable using Bootstrap Brands.
-```xml
-<com.beardedhen.harmonybootstrap.BootstrapButton
-    ohos:id="$+id:bbutton_example_corners"
-    ohos:height="match_content"
-    ohos:width="match_content"
-    app:bootstrapBrand="success"
-    app:bootstrapSize="lg"
-    app:buttonMode="regular"
-    ohos:right_margin="4vp"
-    app:roundedCorners="true"
-    app:showOutline="false"
-    ohos:text="Corners" />
-```
-<img src="./images/bootstrap_button.png" width=450 ></img>
+## Overview
 
+We can use various custom typefaces asset for any text views(like TextView, Button, RadioButton, EditText, etc.),
+but there's no way to set the typeface as a styled theme to apply the typeface for overall screens in the app.
 
-### BootstrapButtonGroup
-Allows BootstrapButtons to be grouped together and their attributes controlled en masse.
-```xml
-<com.beardedhen.harmonybootstrap.BootstrapButtonGroup
-    ohos:id="$+id:bbutton_group_orientation_change"
-    ohos:width="match_content"
-    ohos:height="match_content"
-    ohos:bottom_margin="4vp"
-    ohos:orientation="horizontal"
-    app:bootstrapBrand="success"
-    ohos:clickable="true"
-    app:bootstrapSize="lg"
-    app:roundedCorners="true" >
-    
-    <com.beardedhen.harmonybootstrap.BootstrapButton
-        ohos:width="match_content"
-        ohos:height="match_content"
-        ohos:text="1"
-        ohos:clickable="true" />
+This library helps to do it in easy way :)
 
-    <com.beardedhen.harmonybootstrap.BootstrapButton
-        ohos:width="match_content"
-        ohos:height="match_content"
-        ohos:text="2"
-        ohos:clickable="true" />
-    
-    <com.beardedhen.harmonybootstrap.BootstrapButton
-        ohos:width="match_content"
-        ohos:height="match_content"
-        ohos:text="3"
-        ohos:clickable="true" />
-</com.beardedhen.harmonybootstrap.BootstrapButtonGroup>
-```
-<img src="./images/bootstrap_buttongroup.png" width=450 ></img>
+And there's also a serious bug that creating typeface from asset resource will cause memory leak ([See this link](https://code.google.com/p/android/issues/detail?id=9904) for more details),
+this library will take care about this problem as well.
 
-### BootstrapProgressBar
-Displays progress in a bar from 0-100, and animates updates to the current progress.
-```xml
-<com.beardedhen.harmonybootstrap.BootstrapProgressBar
-    ohos:id="$+id:stripedProgressBar"
-    ohos:height="15vp"
-    ohos:left_margin="10vp"
-    ohos:right_margin="5vp"
-    ohos:padding="3vp"
-    ohos:top_margin="5vp"
-    ohos:width="match_parent"
-    ohos:left_padding="3vp"
-    app:bootstrapBrand="info"
-    app:bootstrapProgress="60"
-    app:bootstrapMaxProgress="200"
-    app:striped="true" />
-```
-<img src="./images/bootstrap_progressbar.png" width=450 ></img>
+## How to use
 
+First, put your typeface into `asset` directory.
 
-### BootstrapLabel
-Displays non-clickable text in a widget similar to the BootstrapButton, sizable using H1-H6 elements.
-```xml
-<com.beardedhen.harmonybootstrap.BootstrapLabel
-    ohos:id="$+id:example_blabel_change_rounded"
-    ohos:height="match_content"
-    ohos:width="match_content"
-    ohos:right_margin="4vp"
-    ohos:text="Round"
-    app:bootstrapBrand="primary"
-    app:bootstrapHeading="h3"
-    app:roundedCorners="true"/>
-```
-<img src="./images/bootstrap_label.png" width=450 ></img>
+In your application class, take care about the helper object lifecycle.
 
-### BootstrapEditText
-Allows editing of text in a widget themed using BootstrapBrand.
-```xml
-<com.beardedhen.harmonybootstrap.BootstrapEditText
-    ohos:id="$+id:bedit_text_change_size"
-    ohos:height="match_content"
-    ohos:width="0vp"
-    app:bootstrapSize="md"
-    app:bootstrapBrand="info"
-    ohos:weight="2"/>
-```
-<img src="./images/bootstrap_edittext.png" width=450 ></img>
+```java
+public class MyApp extends Application {
+  @Override
+  public void onCreate() {
+    super.onCreate();
 
-### BootstrapCircleThumbnail
-Displays images in a center-cropped Circular View, themed with BootstrapBrand.
-```xml
-<com.beardedhen.harmonybootstrap.BootstrapCircleThumbnail
-    ohos:id="$+id:bcircle_theme_change_example"
-    ohos:width="250vp"
-    ohos:height="250vp"
-    ohos:image_src="$media:small_daffodils"
-    app:bootstrapBrand="success"
-    app:hasBorder="true"/>
-```
-<img src="./images/bootstrap_circle_thumbnail.png" width=450 ></img>
+    TypefaceHelper.initialize(this);
+  }
 
-### BootstrapThumbnail
-Displays images in a rectangular View, themed with BootstrapBrand.
-```xml
-<com.beardedhen.harmonybootstrap.BootstrapThumbnail
-    ohos:id="$+id:bthumb_theme_change_example"
-    ohos:height="250vp"
-    ohos:width="250vp"
-    app:bootstrapBrand="success"
-    app:hasBorder="true"
-    ohos:image_src="$media:small_daffodils"/>
-```
-<img src="./images/bootstrap_thumbnail.png" width=450 ></img>
-
-### BootstrapWell
-Displays a view in a themed container.
-
-```xml
-<com.beardedhen.harmonybootstrap.BootstrapWell
-    ohos:height="match_content"
-    ohos:width="match_parent"
-    ohos:layout_alignment="center"
-    ohos:margin="8vp"
-    app:bootstrapSize="xl">
-
-    <Text
-        ohos:height="match_content"
-        ohos:width="match_content"
-        ohos:text_alignment="right"
-        ohos:text_size="14vp"
-        ohos:text_color="$color:grey"
-        ohos:text="$string:bootstrapwell_large"/>
-
-</com.beardedhen.harmonybootstrap.BootstrapWell>
-```
-<img src="./images/bootstrap_well.png" width=450 ></img>
-
-
-### BootstrapDropDown
-Displays a view with dropdown options, supplied by an array of strings, use public void setDropdownData(String[] dropdownData) API to supply string array, refer sample app for more details.
-
-```xml
-<com.beardedhen.harmonybootstrap.BootstrapDropDown
-    ohos:id="$+id:medium"
-    ohos:height="match_content"
-    ohos:width="match_content"
-    ohos:left_margin="8vp"
-    app:bootstrapBrand="regular"
-    app:bootstrapExpandDirection="down"
-    app:bootstrapSize="md"
-    app:bootstrapText="Medium"
-    app:roundedCorners="true" />
-```
-<img src="./images/bootstrap_dropdown.png" width=450 ></img>
-
-### BootstrapBadge
-Displays view with the bootstrap badges.
-
-```xml
-<com.beardedhen.harmonybootstrap.BootstrapBadge
-    ohos:id="$+id:lonely_badge"
-    ohos:height="12vp"
-    ohos:width="80vp"
-    app:badgeText="I am a Badge!!!"
-    app:bootstrapSize="sm"
-    ohos:layout_alignment="horizontal_center"/>
-```
-<img src="./images/bootstrap_badge.png" width=450 ></img>
-
-### BootstrapAlert
-Displays view with the bootstrap alert.
-
-```xml
-<com.beardedhen.harmonybootstrap.BootstrapAlert
-        ohos:id="$+id:dynamic_alert"
-        ohos:width="match_parent"
-        ohos:height="match_content"
-        ohos:top_margin="10vp"
-        app:bootstrapBrand="success"
-        ohos:layout_alignment="horizontal_center"
-        app:dismissible="true"
-        app:messageText="You successfully read this important alert message."
-        app:strongText="Well done!"
-        />
-```
-<img src="./images/bootstrap_alert.png" width=450 ></img>
-
-### BootstrapProgressBarGroup
-Displays view with the bootstrap progressbars grouped.
-
-```xml
-<com.beardedhen.harmonybootstrap.BootstrapProgressBarGroup
-    ohos:id="$+id:example_progress_bar_group_add_group"
-    ohos:height="match_content"
-    ohos:width="match_parent"
-    app:bootstrapMaxProgress="100"
-    app:bootstrapSize="md">
-
-    <com.beardedhen.harmonybootstrap.BootstrapProgressBar
-        ohos:height="0vp"
-        ohos:width="0vp"
-        app:bootstrapBrand="success"
-        app:bootstrapProgress="20"
-        app:bootstrapSize="md"
-        app:striped="true"
-        />
-
-    <com.beardedhen.harmonybootstrap.BootstrapProgressBar
-        ohos:height="0vp"
-        ohos:width="0vp"
-        app:bootstrapBrand="warning"
-        app:bootstrapProgress="20"
-        app:bootstrapSize="md"
-        />
-
-</com.beardedhen.harmonybootstrap.BootstrapProgressBarGroup>
+  @Override
+  public void onTerminate() {
+    TypefaceHelper.destroy();
+    super.onTerminate();
+  }
+}
 ```
 
-<img src="./images/bootstrap_progressbar_group.png" width=450 ></img>
+And in your activity, if you would like to set your typeface to a text view,
 
-## Installation instruction
-```
-Method 1:
-Generate the .har package through the library and add the .har package to the libs folder.
-Add the following code to the entry gradle:
-    implementation fileTree  (dir: 'libs', include: ['*.jar', '*.har'])
+```java
+public class MyActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
 
-Method 2:
-In project level build.gradle:
-    allprojects{
-        repositories{
-            mavenCentral()
-        }
-    }
-Add the following code to the entry gradle:
-    implementation 'io.openharmony.tpc.thirdlib:ohos-bootstrap:1.0.0'
+    TextView hello = (TextView) findViewById(R.id.hello_world);
+    TypefaceHelper.getInstance().setTypeface(hello, "font/font_file.ttf");
+  }
+}
 ```
+
+You can also set your typeface for all text views that belong to a specific view group just like this.
+
+```java
+public class MyActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    LinearLayout container = (LinearLayout) findViewById(R.id.text_container);
+    TypefaceHelper.getInstance().setTypeface(container, "font/font_file.ttf");
+  }
+}
+```
+
+If you want to apply the typeface for all text views under the activity layout,
+
+```java
+public class MyActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(TypefaceHelper.getInstance().setTypeface(this, R.layout.activity_main, "font/font_file.ttf"));
+  }
+}
+```
+
+Nice and easy!
+
+You can apply the typeface to your whole window like this.
+
+```java
+public class MyActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.layout_activity_main);
+    TypefaceHelper.getInstance().setTypeface(this, "font/font_file.ttf");
+  }
+}
+```
+
+And... you can also pass the font name as a string resource id:
+
+```java
+public class MyActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.layout_activity_main);
+    TypefaceHelper.getInstance().setTypeface(this, R.string.font_primary);
+  }
+}
+```
+
+## Download
+
+Gradle:
+
+```
+compile 'com.drivemode:TypefaceHelper:1.2.0@aar'
+```
+
+## License
+
+```
+Copyright (C) 2014 Drivemode, Inc. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND, either express or implied. See the License for the
+specific language governing permissions and limitations under the License.
+```
+
+And the sample app uses the following font under [OFL](http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL).
+
+- [Isserley](http://openfontlibrary.org/en/font/isserley)
