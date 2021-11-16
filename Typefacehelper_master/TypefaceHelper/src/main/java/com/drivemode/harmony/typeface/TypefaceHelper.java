@@ -1,6 +1,6 @@
 package com.drivemode.harmony.typeface;
 
-import ohos.aafwk.ability.Ability;
+import ohos.aafwk.ability.AbilitySlice;
 import ohos.agp.components.Component;
 import ohos.agp.components.ComponentContainer;
 import ohos.agp.components.LayoutScatter;
@@ -10,6 +10,8 @@ import ohos.agp.text.Font;
 import ohos.agp.window.dialog.BaseDialog;
 import ohos.agp.window.dialog.ToastDialog;
 import ohos.app.Context;
+
+import java.lang.reflect.Field;
 
 public final class TypefaceHelper {
     public static final String TAG = TypefaceHelper.class.getSimpleName();
@@ -281,7 +283,7 @@ public final class TypefaceHelper {
      * @param activity the activity.
      * @param typefaceName typeface name.
      */
-    public void setTypeface(Ability activity, String typefaceName) {
+    public void setTypeface(AbilitySlice activity, String typefaceName) {
         setTypeface(activity, typefaceName, 0);
     }
 
@@ -291,7 +293,7 @@ public final class TypefaceHelper {
      * @param activity the activity.
      * @param strResId string resource containing typeface name.
      */
-    public void setTypeface(Ability activity, int strResId) {
+    public void setTypeface(AbilitySlice activity, int strResId) {
         setTypeface(activity, mApplication.getString(strResId));
     }
 
@@ -302,8 +304,33 @@ public final class TypefaceHelper {
      * @param typefaceName typeface name.
      * @param style the typeface style.
      */
-    public void setTypeface(Ability activity, String typefaceName, int style) {
-        setTypeface((ComponentContainer) activity.getWindow().getCurrentComponentFocus().get(), typefaceName, style);
+    public void setTypeface(AbilitySlice activity, String typefaceName, int style) {
+        //setTypeface((ComponentContainer) activity.getWindow().getCurrentComponentFocus().get(), typefaceName, style);
+        setTypeface((ComponentContainer) getCurrentComponentContainer(activity), typefaceName, style);
+    }
+
+    public static Component getCurrentComponentContainer(AbilitySlice abilitySlice){
+        try{
+            Field uiContent = AbilitySlice.class.getDeclaredField("uiContent");
+            uiContent.setAccessible(true);
+            Object uiContentObj = uiContent.get(abilitySlice);
+            LogUtil.i("Gowtham uiContentObj : " , uiContentObj.toString());
+
+            Field curComponentContainer = uiContentObj.getClass().getSuperclass()
+                    .getDeclaredField("curComponentContainer");
+            curComponentContainer.setAccessible(true);
+            Object curComponentContainerObj = curComponentContainer.get(uiContentObj);
+
+            LogUtil.i("Gowtham curComponentContainerObj : " , curComponentContainerObj.toString());
+
+
+            return (Component) curComponentContainerObj;
+
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     /**
@@ -313,7 +340,7 @@ public final class TypefaceHelper {
      * @param strResId string resource containing typeface name.
      * @param style the typeface style.
      */
-    public void setTypeface(Ability activity, int strResId, int style) {
+    public void setTypeface(AbilitySlice activity, int strResId, int style) {
         setTypeface(activity, mApplication.getString(strResId), style);
     }
 

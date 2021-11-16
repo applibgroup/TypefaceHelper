@@ -5,5 +5,5 @@
         ohos:padding="10vp"
         ohos:text_alignment="vertical_center"
         ohos:text_size="16fp"
-        ohos:text_color="#f3f3f3"
+        ohos:text_color="#FF390000"
         ohos:id="$+id:list_component"/>

@@ -13,6 +13,7 @@
     <Text
         ohos:id="$+id:hello_world"
         ohos:text="$string:Hello"
+        ohos:text_size="20vp"
         ohos:height="match_content"
         ohos:width="match_content"
         ohos:bottom_margin="4vp"
