@@ -1,0 +1,45 @@
+{
+  "strarray": [
+    {
+      "name": "sample_list",
+      "value": [
+        {
+          "value": "Foo"
+        },
+        {
+          "value": "Bar"
+        },
+        {
+          "value": "Baz"
+        },
+        {
+          "value": "Qux"
+        },
+        {
+          "value": "Quux"
+        },
+        {
+          "value": "Hoge"
+        },
+        {
+          "value": "Fuga"
+        },
+        {
+          "value": "Piyo"
+        },
+        {
+          "value": "Hoge"
+        },
+        {
+          "value": "Alice"
+        },
+        {
+          "value": "Bob"
+        },
+        {
+          "value": "Charlie"
+        }
+      ]
+    }
+  ]
+}

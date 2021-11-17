@@ -1,0 +1,44 @@
+{
+  "float": [
+    {
+      "name": "default_circle_indicator_stroke_width",
+      "value": "1vp"
+    },
+    {
+      "name": "default_circle_indicator_radius",
+      "value": "3vp"
+    },
+    {
+      "name": "default_title_indicator_footer_line_height",
+      "value": "2vp"
+    },
+    {
+      "name": "default_title_indicator_footer_indicator_height",
+      "value": "4vp"
+    },
+    {
+      "name": "default_title_indicator_footer_indicator_underline_padding",
+      "value": "20vp"
+    },
+    {
+      "name": "default_title_indicator_footer_padding",
+      "value": "7vp"
+    },
+    {
+      "name": "default_title_indicator_text_size",
+      "value": "15vp"
+    },
+    {
+      "name": "default_title_indicator_title_padding",
+      "value": "5vp"
+    },
+    {
+      "name": "default_title_indicator_clip_padding",
+      "value": "4vp"
+    },
+    {
+      "name": "default_title_indicator_top_padding",
+      "value": "7vp"
+    }
+  ]
+}
