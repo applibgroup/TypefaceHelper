@@ -62,15 +62,22 @@ public class MainAbility extends Ability {
 You can also set your typeface for all text that belong to a specific ComoponentConatainer just like this.
 
 ```java
-public class MyActivity extends Activity {
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+public class MainAbilitySlice extends AbilitySlice {
+    @Override
+    public void onStart(Intent intent) {
+        super.onStart(intent);
+        super.setUIContent(ResourceTable.Layout_ability_main);
 
-    LinearLayout container = (LinearLayout) findViewById(R.id.text_container);
-    TypefaceHelper.getInstance().setTypeface(container, "font/font_file.ttf");
-  }
+        TypefaceHelper.initialize(this);
+        TypefaceHelper.getInstance().setTypeface(this, "Isserley-Regular.ttf");
+
+        ListContainer lv = (ListContainer) findComponentById(ResourceTable.Id_list_container);
+        MainListProvider listProvider = new MainListProvider(getStringArray(ResourceTable.Strarray_sample_list));
+
+        lv.setItemProvider(listProvider);
+        lv.setItemClickedListener(new ListContainer.ItemClickedListener(){
+        }
+    }
 }
 ```
 
