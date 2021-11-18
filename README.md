@@ -17,9 +17,6 @@ This library helps to do it in easy way :)
 And there's also a serious bug that creating typeface from asset resource will cause memory leak ([See this link](https://code.google.com/p/android/issues/detail?id=9904) for more details),
 this library will take care about this problem as well.
 
-## TypefaceHelper 
-A list inspired by the types of food 
-
 ## Source
 This library has been inspired by https://github.com/Drivemode/TypefaceHelper
 
