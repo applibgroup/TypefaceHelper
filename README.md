@@ -9,7 +9,7 @@ Helper object for injecting typeface into various text views of android.
 
 ## Overview
 
-We can use various custom typefaces asset for any text views(like TextView, Button, RadioButton, EditText, etc.),
+We can use various custom typefaces asset for any text components (like Text, Button, RadioButton, etc.),
 but there's no way to set the typeface as a styled theme to apply the typeface for overall screens in the app.
 
 This library helps to do it in easy way :)
@@ -17,45 +17,49 @@ This library helps to do it in easy way :)
 And there's also a serious bug that creating typeface from asset resource will cause memory leak ([See this link](https://code.google.com/p/android/issues/detail?id=9904) for more details),
 this library will take care about this problem as well.
 
-## How to use
+## TypefaceHelper 
+A list inspired by the types of food 
 
-First, put your typeface into `asset` directory.
+## Source
+This library has been inspired by https://github.com/Drivemode/TypefaceHelper
+
+## How to use
 
 In your application class, take care about the helper object lifecycle.
 
 ```java
-public class MyApp extends Application {
-  @Override
-  public void onCreate() {
-    super.onCreate();
+public abstract class MyApplication extends AbilityPackage {
+    @Override
+    public void onInitialize() {
+        super.onInitialize();
+        TypefaceHelper.initialize(this);
+    }
 
-    TypefaceHelper.initialize(this);
-  }
-
-  @Override
-  public void onTerminate() {
-    TypefaceHelper.destroy();
-    super.onTerminate();
-  }
+    @Override
+    public void onEnd() {
+        super.onEnd();
+        TypefaceHelper.destroy();
+    }
 }
 ```
 
-And in your activity, if you would like to set your typeface to a text view,
+And in your activity, if you would like to set your typeface to a text ,
 
 ```java
-public class MyActivity extends Activity {
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
 
-    TextView hello = (TextView) findViewById(R.id.hello_world);
-    TypefaceHelper.getInstance().setTypeface(hello, "font/font_file.ttf");
-  }
+public class MainAbility extends Ability {
+    
+    @Override
+    public void onStart(Intent intent) {
+        super.onStart(intent);
+        super.setMainRoute(MainAbilitySlice.class.getCanonicalName());
+        //super.setUIContent(ResourceTable.Layout_ability_main);
+    }
 }
+
 ```
 
-You can also set your typeface for all text views that belong to a specific view group just like this.
+You can also set your typeface for all text that belong to a specific ComoponentConatainer just like this.
 
 ```java
 public class MyActivity extends Activity {
@@ -70,16 +74,17 @@ public class MyActivity extends Activity {
 }
 ```
 
-If you want to apply the typeface for all text views under the activity layout,
+If you want to apply the typeface for all text under the AbilitySlice,
 
 ```java
-public class MyActivity extends Activity {
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(TypefaceHelper.getInstance().setTypeface(this, R.layout.activity_main, "font/font_file.ttf"));
-  }
+public class MainAbilitySlice extends AbilitySlice {
+    @Override
+    public void onStart(Intent intent) {
+        super.onStart(intent);
+        super.setUIContent(ResourceTable.Layout_ability_main);
+    }
 }
+
 ```
 
 Nice and easy!
@@ -87,62 +92,48 @@ Nice and easy!
 You can apply the typeface to your whole window like this.
 
 ```java
-public class MyActivity extends Activity {
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.layout_activity_main);
-    TypefaceHelper.getInstance().setTypeface(this, "font/font_file.ttf");
-  }
-}
+
+public void onItemClicked(ListContainer listContainer, Component component, int i, long l) {
+                ToastDialog toastDialog = createToast("pos: " + i);
+                TypefaceHelper.getInstance().setTypeface(
+                        toastDialog,
+                        "Isserley-Regular.ttf").show();
+            }
+        });
+
 ```
 
-And... you can also pass the font name as a string resource id:
+And... you can also pass the Component name as a string resource id:
 
 ```java
-public class MyActivity extends Activity {
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.layout_activity_main);
-    TypefaceHelper.getInstance().setTypeface(this, R.string.font_primary);
-  }
+ 
+ public Component getComponent(int position, Component component, ComponentContainer componentContainer) {
+            Component convertView = component;
+            if (convertView == null) {
+                convertView = LayoutScatter.getInstance(getContext()).parse
+                        (ResourceTable.Layout_list_item, componentContainer, false);
+            }
 }
 ```
 
-## Download
 
-Gradle:
 
-```
-compile 'com.drivemode:TypefaceHelper:1.2.0@aar'
-```
 
-## TypefaceHelper for HMOS
-A list inspired by the types of food 
-
-## Source
-This library has been inspired by https://github.com/Drivemode/TypefaceHelper
 
 ## Integration
-Add library TypefaceHelper module to your source code.
 
-## Usage 
-
-1. Add list_item into your layout 
-
-```xml
-<Text xmlns:ohos="http://schemas.huawei.com/res/ohos"
-        ohos:height="match_content"
-        ohos:width="match_parent"
-        ohos:padding="10vp"
-        ohos:text_alignment="vertical_center"
-        ohos:text_size="16fp"
-        ohos:text_color="#FF390000"
-        ohos:id="$+id:list_component"/>
+1. For using TypefaceHelper module in sample app, include the source code and add the below dependencies in entry/build.gradle to generate hap/support.har.
+```java
+ implementation project(path: ':TypefaceHelper')
 ```
-
-
+2. For using TypefaceHelper module in separate application using har file, add the har file in the entry/libs folder and add the dependencies in entry/build.gradle file.
+ ```java
+ implementation fileTree(dir: 'libs', include: ['*.har'])
+```
+3. For using TypefaceHelper module from a remote repository in separate application, add the below dependencies in entry/build.gradle file.
+```java
+implementation 'dev.applibgroup:TypefaceHelper:1.0.0'
+```
 
 ## License
 
