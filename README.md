@@ -25,7 +25,7 @@ This library has been inspired by https://github.com/Drivemode/TypefaceHelper
 
 ## How to use
 
-In your application class, take care about the helper object lifecycle.
+In your MyApplication class, take care about the helper object lifecycle.
 
 ```java
 public abstract class MyApplication extends AbilityPackage {
@@ -43,7 +43,7 @@ public abstract class MyApplication extends AbilityPackage {
 }
 ```
 
-And in your activity, if you would like to set your typeface to a text ,
+And in your MainAbility, if you would like to set your typeface to a text ,
 
 ```java
 
