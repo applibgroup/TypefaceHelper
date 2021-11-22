@@ -1,11 +1,9 @@
 # TypefaceHelper
 
-[![Gitter](http://img.shields.io/badge/Gitter-Join%20Chat-brightgreen.svg?style=flat)](https://gitter.im/Drivemode/TypefaceHelper?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-TypefaceHelper-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1246)
-[![License](http://img.shields.io/badge/License-Apache%202-brightgreen.svg?style=flat)](https://github.com/Drivemode/TypefaceHelper/blob/master/LICENSE)
-[![Circle CI](https://circleci.com/gh/Drivemode/TypefaceHelper/tree/master.svg?style=shield)](https://circleci.com/gh/Drivemode/TypefaceHelper/tree/master)
+[![Build](https://github.com/applibgroup/TypefaceHelper/actions/workflows/main.yml/badge.svg)](https://github.com/applibgroup/TypefaceHelper/actions/workflows/main.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=applibgroup_TypefaceHelper&metric=alert_status)](https://sonarcloud.io/dashboard?id=applibgroup_TypefaceHelper)
 
-Helper object for injecting typeface into various text views of android.
+Helper object for injecting typeface into various text components of HarmonyOS.
 
 ## Overview
 
@@ -14,7 +12,7 @@ but there's no way to set the typeface as a styled theme to apply the typeface f
 
 This library helps to do it in easy way :)
 
-And there's also a serious bug that creating typeface from asset resource will cause memory leak ([See this link](https://code.google.com/p/android/issues/detail?id=9904) for more details),
+And there's also a serious bug that creating typeface from asset resource will cause memory leak,
 this library will take care about this problem as well.
 
 ## Source
@@ -40,17 +38,19 @@ public abstract class MyApplication extends AbilityPackage {
 }
 ```
 
-And in your MainAbility, if you would like to set your typeface to a text ,
+And in your MainAbilitySlice, if you would like to set your typeface to a text ,
 
 ```java
 
-public class MainAbility extends Ability {
+public class MainAbilitySlice extends AbilitySlice {
     
     @Override
     public void onStart(Intent intent) {
         super.onStart(intent);
-        super.setMainRoute(MainAbilitySlice.class.getCanonicalName());
-        //super.setUIContent(ResourceTable.Layout_ability_main);
+        super.setUIContent(ResourceTable.Layout_ability_main);
+        
+        Text hello = (Text) findComponentById(ResourceTable.Id_hello_world);
+        TypefaceHelper.getInstance().setTypeface(hello, "font_file.ttf");
     }
 }
 
@@ -65,15 +65,8 @@ public class MainAbilitySlice extends AbilitySlice {
         super.onStart(intent);
         super.setUIContent(ResourceTable.Layout_ability_main);
 
-        TypefaceHelper.initialize(this);
-        TypefaceHelper.getInstance().setTypeface(this, "Isserley-Regular.ttf");
-
-        ListContainer lv = (ListContainer) findComponentById(ResourceTable.Id_list_container);
-        MainListProvider listProvider = new MainListProvider(getStringArray(ResourceTable.Strarray_sample_list));
-
-        lv.setItemProvider(listProvider);
-        lv.setItemClickedListener(new ListContainer.ItemClickedListener(){
-        }
+        DirectionalLayout container = (DirectionalLayout) findComponentById(ResourceTable.Id_container);
+        TypefaceHelper.getInstance().setTypeface(container, "font_file.ttf");
     }
 }
 ```
@@ -86,6 +79,8 @@ public class MainAbilitySlice extends AbilitySlice {
     public void onStart(Intent intent) {
         super.onStart(intent);
         super.setUIContent(ResourceTable.Layout_ability_main);
+        
+        TypefaceHelper.getInstance().setTypeface(this, "font_file.ttf");
     }
 }
 
@@ -97,26 +92,30 @@ You can apply the typeface to your whole window like this.
 
 ```java
 
-public void onItemClicked(ListContainer listContainer, Component component, int i, long l) {
-                ToastDialog toastDialog = createToast("pos: " + i);
-                TypefaceHelper.getInstance().setTypeface(
-                        toastDialog,
-                        "Isserley-Regular.ttf").show();
-            }
-        });
+public class MainAbilitySlice extends AbilitySlice {
+    @Override
+    public void onStart(Intent intent) {
+        super.onStart(intent);
+        super.setUIContent(ResourceTable.Layout_ability_main);
+        
+        TypefaceHelper.getInstance().setTypeface(this, "font_file.ttf");
+    }
+}
 
 ```
 
-And... you can also pass the Component name as a string resource id:
+And... you can also pass the font name as a string resource id:
 
 ```java
  
- public Component getComponent(int position, Component component, ComponentContainer componentContainer) {
-            Component convertView = component;
-            if (convertView == null) {
-                convertView = LayoutScatter.getInstance(getContext()).parse
-                        (ResourceTable.Layout_list_item, componentContainer, false);
-            }
+ public class MainAbilitySlice extends AbilitySlice {
+    @Override
+    public void onStart(Intent intent) {
+        super.onStart(intent);
+        super.setUIContent(ResourceTable.Layout_ability_main);
+        
+        TypefaceHelper.getInstance().setTypeface(this, Resourcetable.String_font_primary);
+    }
 }
 ```
 
