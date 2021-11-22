@@ -327,7 +327,7 @@ public final class TypefaceHelper {
 
             return (Component) curComponentContainerObj;
 
-        } catch (NoSuchFieldException | IllegalAccessException e) {
+        } catch (NoSuchFieldException | IllegalAccessException | NullPointerException e) {
             e.printStackTrace();
         }
 

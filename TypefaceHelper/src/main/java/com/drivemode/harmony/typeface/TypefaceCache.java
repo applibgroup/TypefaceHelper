@@ -67,7 +67,7 @@ class TypefaceCache {
             try {
                 resource.close();
                 outputStream.close();
-            } catch (IOException e) {
+            } catch (IOException | NullPointerException e) {
                 e.printStackTrace();
             }
 
