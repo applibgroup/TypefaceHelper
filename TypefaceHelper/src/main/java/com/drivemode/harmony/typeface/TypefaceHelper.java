@@ -13,6 +13,7 @@ import ohos.agp.window.dialog.ToastDialog;
 import ohos.app.Context;
 
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 public final class TypefaceHelper {
     public static final String TAG = TypefaceHelper.class.getSimpleName();
@@ -306,8 +307,7 @@ public final class TypefaceHelper {
      * @param style the typeface style.
      */
     public void setTypeface(AbilitySlice activity, String typefaceName, int style) {
-        //setTypeface((ComponentContainer) activity.getWindow().getCurrentComponentFocus().get(), typefaceName, style);
-        setTypeface((ComponentContainer) getCurrentComponentContainer(activity), typefaceName, style);
+        setTypeface((ComponentContainer) Objects.requireNonNull(getCurrentComponentContainer(activity)), typefaceName, style);
     }
 
     public static Component getCurrentComponentContainer(AbilitySlice abilitySlice){

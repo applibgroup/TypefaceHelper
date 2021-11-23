@@ -39,7 +39,7 @@ class TypefaceCache {
         return typeface;
     }
 
-    Font createFontBuild(Context context, String name) {
+    Font createFontBuild(Context context, String name) throws IOException {
         ResourceManager resManager = context.getResourceManager();
         RawFileEntry rawFileEntry = resManager.getRawFileEntry("resources/rawfile/" + name);
         Resource resource = null;
@@ -61,16 +61,13 @@ class TypefaceCache {
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         } finally {
-            try {
+            if(resource != null){
                 resource.close();
-                outputStream.close();
-            } catch (IOException | NullPointerException e) {
-                e.printStackTrace();
             }
-
+            if(outputStream != null){
+                outputStream.close();
+            }
         }
         Font.Builder builder = new Font.Builder(file);
         return builder.build();
