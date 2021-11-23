@@ -46,7 +46,7 @@ class TypefaceCache {
         try {
             resource = rawFileEntry.openRawFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtil.i("Exception",e.getLocalizedMessage());
         }
         StringBuffer fileName = new StringBuffer(name);
         File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), fileName.toString());
@@ -60,7 +60,7 @@ class TypefaceCache {
                 outputStream.flush();
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            LogUtil.i("Exception",e.getLocalizedMessage());
         } finally {
             if(resource != null){
                 resource.close();
