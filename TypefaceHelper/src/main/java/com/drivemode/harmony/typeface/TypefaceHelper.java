@@ -85,6 +85,7 @@ public final class TypefaceHelper {
      * @param <V> text view parameter. */
 
     public <V extends Text> void setTypeface(V view, String typefaceName, int style) {
+        LogUtil.d(TAG, "Style API not available : " + style);
         Font typeface = mCache.get(typefaceName);
         view.setFont(typeface);
     }
@@ -235,6 +236,7 @@ public final class TypefaceHelper {
      * @return the view.
      */
     public Component setTypeface(Context context, int layoutRes, String typefaceName, int style) {
+        LogUtil.d(TAG, "Style API un-available : " + style);
         return setTypeface(context, layoutRes, null, typefaceName, 0);
     }
 
@@ -247,6 +249,7 @@ public final class TypefaceHelper {
      * @return the view.
      */
     public Component setTypeface(Context context, int layoutRes, int strResId, int style) {
+        LogUtil.d(TAG, "Style API unavailable : " + style);
         return setTypeface(context, layoutRes, mApplication.getString(strResId), 0);
     }
 

@@ -1,7 +1,6 @@
 package com.example.typefacemaster.slice;
 
 import com.drivemode.harmony.typeface.TypefaceHelper;
-import com.example.typefacemaster.MainAbility;
 import com.example.typefacemaster.ResourceTable;
 import ohos.aafwk.ability.AbilitySlice;
 import ohos.aafwk.content.Intent;
@@ -15,13 +14,15 @@ import ohos.agp.utils.TextAlignment;
 import ohos.agp.window.dialog.ToastDialog;
 
 public class MainAbilitySlice extends AbilitySlice {
+
+    private static final String TYPEFACE_NAME = "Isserley-Regular.ttf";
     @Override
     public void onStart(Intent intent) {
         super.onStart(intent);
         super.setUIContent(ResourceTable.Layout_ability_main);
 
         TypefaceHelper.initialize(this);
-        TypefaceHelper.getInstance().setTypeface(this, "Isserley-Regular.ttf");
+        TypefaceHelper.getInstance().setTypeface(this, TYPEFACE_NAME);
 
         ListContainer lv = (ListContainer) findComponentById(ResourceTable.Id_list_container);
         MainListProvider listProvider = new MainListProvider(getStringArray(ResourceTable.Strarray_sample_list));
@@ -33,7 +34,7 @@ public class MainAbilitySlice extends AbilitySlice {
                 ToastDialog toastDialog = createToast("pos: " + i);
                 TypefaceHelper.getInstance().setTypeface(
                         toastDialog,
-                        "Isserley-Regular.ttf").show();
+                        TYPEFACE_NAME).show();
             }
         });
 
@@ -47,7 +48,7 @@ public class MainAbilitySlice extends AbilitySlice {
         /**
          * The List items.
          */
-        String[] list_items;
+        String[] listItems;
 
         /**
          * Instantiates a new Main list provider.
@@ -55,17 +56,17 @@ public class MainAbilitySlice extends AbilitySlice {
          * @param lst the lst
          */
         MainListProvider(String[] lst) {
-            list_items = lst;
+            listItems = lst;
         }
 
         @Override
         public int getCount() {
-            return list_items.length;
+            return listItems.length;
         }
 
         @Override
         public Object getItem(int position) {
-            return list_items[position];
+            return listItems[position];
         }
 
         @Override
@@ -82,7 +83,7 @@ public class MainAbilitySlice extends AbilitySlice {
             }
             ((Text) (convertView.findComponentById(ResourceTable.Id_list_component))).setText
                     ((String) getItem(position));
-            TypefaceHelper.getInstance().setTypeface((Text) convertView, "Isserley-Regular.ttf");
+            TypefaceHelper.getInstance().setTypeface((Text) convertView, TYPEFACE_NAME);
             convertView.setClickable(false);
             return convertView;
         }

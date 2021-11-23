@@ -6,6 +6,10 @@ import ohos.agp.window.dialog.CommonDialog;
 import ohos.agp.window.dialog.IDialog;
 
 final class DialogUtils {
+
+    private DialogUtils() {
+        throw new IllegalStateException("Utility class");
+    }
     public static <D extends BaseDialog> void setTypeface(TypefaceHelper helper, D dialog, String typefaceName, int style) {
         if (dialog instanceof CommonDialog) {
             setTypeface(helper, (CommonDialog) dialog, typefaceName, style);

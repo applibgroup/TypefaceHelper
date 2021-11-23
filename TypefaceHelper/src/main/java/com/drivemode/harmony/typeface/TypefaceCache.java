@@ -8,11 +8,12 @@ import ohos.global.resource.Resource;
 import ohos.global.resource.ResourceManager;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.Hashtable;
 class TypefaceCache {
     private static TypefaceCache sInstance;
 
-    private final Hashtable<String, Font> mCache = new Hashtable<String, Font>();
+    private final HashMap<String, Font> mCache = new HashMap<>();
 
     private final Context mApplication;
 
@@ -48,11 +49,10 @@ class TypefaceCache {
         } catch (IOException e) {
             LogUtil.i("Exception",e.getLocalizedMessage());
         }
-        StringBuffer fileName = new StringBuffer(name);
+        StringBuilder fileName = new StringBuilder(name);
         File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), fileName.toString());
-        OutputStream outputStream = null;
-        try {
-            outputStream = new FileOutputStream(file);
+
+        try(OutputStream outputStream = new FileOutputStream(file)) {
             int index;
             byte[] bytes = new byte[1024];
             while ((index = resource.read(bytes)) != -1) {
@@ -64,9 +64,6 @@ class TypefaceCache {
         } finally {
             if(resource != null){
                 resource.close();
-            }
-            if(outputStream != null){
-                outputStream.close();
             }
         }
         Font.Builder builder = new Font.Builder(file);
